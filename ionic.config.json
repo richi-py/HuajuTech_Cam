@@ -1,0 +1,7 @@
+{
+  "name": "SpectroIT",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
