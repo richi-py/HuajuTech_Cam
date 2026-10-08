@@ -3,8 +3,8 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+          <ion-list-header>Spectro Lora</ion-list-header>
+          <ion-note>Salud de tus plantas en tiempo real</ion-note>
 
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
@@ -17,14 +17,23 @@
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-list-header>Conexiones </ion-list-header>
 
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
+          <ion-item lines="none">
+            <ion-icon aria-hidden="true" slot="start" ios="wifi-outline" md="wifi-sharp"></ion-icon>
+            <ion-label>
+              <h3>Estado de Conexion LoRa</h3>
+              <p>Estable</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-icon aria-hidden="true" slot="start" ios="hardware-chip-outline" md="hardware-chip-sharp"></ion-icon>
+            <ion-label>
+              <h3>Dispositivos Conectados</h3>
+              <p>2 de 2 sensores conectados</p>
+            </ion-label>
+          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

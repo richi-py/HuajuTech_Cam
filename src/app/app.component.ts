@@ -1,9 +1,8 @@
-
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
+import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, leafOutline, leafSharp, mapOutline, mapSharp, wifiOutline, wifiSharp, hardwareChipOutline, hardwareChipSharp, personOutline, personSharp } from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +12,37 @@ import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutlin
 })
 export class AppComponent {
   protected readonly appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Zona de Cultivo', url: '/folder/Cultivo', icon: 'map' },
+    { title: 'Alertas', url: '/folder/Alerta', icon: 'warning' },
+    { title: 'Recomendaciones', url: '/folder/Recomendaciones', icon: 'bookmark' },
+    { title: 'Perfil', url: '/folder/perfil', icon: 'person'},
   ];
-  protected readonly labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+    addIcons({
+      'mail-outline': mailOutline,
+      'mail-sharp': mailSharp,
+      'person-outline': personOutline,
+      'person-sharp': personSharp,
+      'paper-plane-outline': paperPlaneOutline,
+      'paper-plane-sharp': paperPlaneSharp,
+      'heart-outline': heartOutline,
+      'heart-sharp': heartSharp,
+      'archive-outline': archiveOutline,
+      'archive-sharp': archiveSharp,
+      'trash-outline': trashOutline,
+      'trash-sharp': trashSharp,
+      'warning-outline': warningOutline,
+      'warning-sharp': warningSharp,
+      'bookmark-outline': bookmarkOutline,
+      'bookmark-sharp': bookmarkSharp,
+      'leaf-outline': leafOutline,
+      'leaf-sharp': leafSharp,
+      'map-outline': mapOutline,
+      'map-sharp': mapSharp,
+      'wifi-outline': wifiOutline,
+      'wifi-sharp': wifiSharp,
+      'hardware-chip-outline': hardwareChipOutline,
+      'hardware-chip-sharp': hardwareChipSharp,
+    });
   }
 }
