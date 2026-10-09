@@ -223,11 +223,7 @@ ion-menu-button {
   }
 }
 
-/* Fondo para la vista de perfil en color verde menta claro */
-ion-content.profile-content {
-  --background: #00a32c; /* Verde menta claro agrícola */
-  background: #00a32c;
-}
+
 
 /* Ajustes adicionales de la vista de perfil adaptados al tema agrícola */
 
@@ -313,6 +309,7 @@ ion-content.profile-content {
     border: 1px solid #28491f;
 
     .segment-btn {
+      text-align: center;
       flex: 1;
       border: none;
       background: transparent;
@@ -320,10 +317,12 @@ ion-content.profile-content {
       border-radius: 16px;
       font-size: 13px;
       font-weight: 600;
+      font-weight: bold;
       color: #618259;
       cursor: pointer;
       transition: all 0.3s ease;
-
+      font-style: oblique;
+      
       &.active {
         background: #c1e0c4;
         color: #1f3717;
@@ -615,5 +614,35 @@ ion-content.profile-content {
   p {
     color: #912018;
     font-size: 13.5px;
+  }
+}
+
+/* Estilos del contenedor y botón Guardar Cambios */
+.save-button-container {
+  margin-top: 28px;
+  width: 100%;
+
+  .save-profile-btn {
+    --background: #28491f; /* Verde oscuro agrícola */
+    --background-hover: #1f3717;
+    --background-activated: #172c12;
+    --color: #ffffff;
+    --border-radius: 16px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    height: 48px;
+    box-shadow: 0 4px 12px rgba(40, 73, 31, 0.25);
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 20px;
+      margin-right: 6px;
+    }
+
+    ion-spinner {
+      margin-right: 8px;
+      --color: #ffffff;
+    }
   }
 }

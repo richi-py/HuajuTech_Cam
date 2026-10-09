@@ -263,12 +263,9 @@
         <!-- Tab Selector: Personal / Business -->
         <div class="profile-segment-container">
           <div class="segmented-control">
-            <button class="segment-btn" [class.active]="profileType === 'personal'" (click)="profileType = 'personal'">
-              Personal
-            </button>
-            <button class="segment-btn" [class.active]="profileType === 'business'" (click)="profileType = 'business'">
-              Business
-            </button>
+            <label class="segment-btn">
+              {{ profileData.name }}
+            </label>
           </div>
         </div>
 
@@ -297,7 +294,26 @@
               <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
             </div>
           </div>
+
+          <!-- Botón para Guardar Cambios en la Base de Datos -->
+          <div class="save-button-container">
+            <ion-button 
+              expand="block" 
+              class="save-profile-btn" 
+              [disabled]="isSaving" 
+              (click)="saveProfileData()">
+              @if (isSaving) {
+                <ion-spinner name="crescent"></ion-spinner>
+                <span> Guardando...</span>
+              } @else {
+                <ion-icon name="save-outline" slot="start"></ion-icon>
+                <span>Guardar Cambios</span>
+              }
+            </ion-button>
+          </div>
+
         </div>
+
       </div>
     </div>
     

@@ -5,7 +5,8 @@ import {
   RefresherCustomEvent, IonRefresher, IonRefresherContent, 
   IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, 
   IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, 
-  IonFab, IonFabButton, ActionSheetController 
+  IonFab, IonButton, IonFabButton, ActionSheetController, 
+  IonSpinner, ToastController
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
@@ -14,7 +15,7 @@ import {
   warningOutline, checkmarkCircleOutline, helpCircleOutline, 
   waterOutline, sunnyOutline, medkitOutline, layersOutline, 
   nutritionOutline, gitBranchOutline, searchOutline, 
-  documentTextOutline, bookOutline, openOutline
+  documentTextOutline, bookOutline, openOutline, saveOutline, alertCircleOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -22,26 +23,28 @@ import {
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
   imports: [
-    IonItem, FormsModule, IonCardHeader, IonCardTitle, IonList, IonLabel, 
+    IonItem, IonSpinner, IonButton, FormsModule, IonCardHeader, IonCardTitle, IonList, IonLabel, 
     IonFab, IonFabButton, IonIcon, IonCard, IonRange, IonCardContent, 
     IonRefresherContent, IonRefresher, IonHeader, IonToolbar, IonButtons, 
     IonMenuButton, IonTitle, IonContent
   ],
 })
 export class FolderPage {
-  estado = "planta_en_buen_estado";
+  estado = "planta_en_mal_estado";
   readonly folder = input.required<string>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   // Datos del perfil
-  profileType: 'personal' | 'business' = 'personal';
   profileImage: string | null = null; // null simula que la foto está vacía
   profileData = {
-    name: null,
-    email: null,
-    website: null
+    name: null as string | null,
+    email: null as string | null,
+    website: null as string | null
   };
+
+  // Estado de carga para el botón guardar
+  isSaving: boolean = false;
 
   rows: number = 3;
   cols: number = 3;
@@ -50,7 +53,10 @@ export class FolderPage {
   connectedDevicesCount: number = 2;
   isPumpActive: boolean = false;
 
-  constructor(private actionSheetCtrl: ActionSheetController) {
+  constructor(
+    private actionSheetCtrl: ActionSheetController,
+    private toastCtrl: ToastController
+  ) {
     addIcons({
       'leaf-outline': leafOutline,
       'radio-outline': radioOutline,
@@ -75,7 +81,9 @@ export class FolderPage {
       'search-outline': searchOutline,
       'document-text-outline': documentTextOutline,
       'book-outline': bookOutline,
-      'open-outline': openOutline
+      'open-outline': openOutline,
+      'save-outline': saveOutline,
+      'alert-circle-outline': alertCircleOutline
     });
   }
 
@@ -164,5 +172,65 @@ export class FolderPage {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  /**
+   * Guardar datos de perfil en la base de datos
+   */
+  async saveProfileData() {
+    this.isSaving = true;
+
+    // Objeto listo para ser enviado a la BD
+    const payload = {
+      name: this.profileData.name,
+      email: this.profileData.email,
+      website: this.profileData.website,
+      profileImage: this.profileImage
+    };
+
+    try {
+      // =========================================================================
+      // 🚀 AQUÍ VA TU CÓDIGO/SERVICIO PARA GUARDAR EN TU BASE DE DATOS 🚀
+      // Ejemplo usando tu servicio/HTTP:
+      //
+      // this.miServicio.guardarPerfil(payload).subscribe({
+      //   next: async (res) => {
+      //     this.isSaving = false;
+      //     await this.mostrarToast('Perfil actualizado correctamente', 'success', 'checkmark-circle-outline');
+      //   },
+      //   error: async (err) => {
+      //     this.isSaving = false;
+      //     await this.mostrarToast('Error al guardar en la base de datos', 'danger', 'alert-circle-outline');
+      //   }
+      // });
+      // =========================================================================
+
+      // Simulación de guardado (2 segundos)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      console.log('Datos preparados para la BD:', payload);
+
+      this.isSaving = false;
+      await this.mostrarToast('¡Perfil guardado exitosamente!', 'success', 'checkmark-circle-outline');
+
+    } catch (error) {
+      this.isSaving = false;
+      console.error('Error al guardar:', error);
+      await this.mostrarToast('Ocurrió un error al guardar', 'danger', 'alert-circle-outline');
+    }
+  }
+
+  /**
+   * Muestra notificaciones tipo Toast
+   */
+  private async mostrarToast(mensaje: string, color: 'success' | 'danger', icono: string) {
+    const toast = await this.toastCtrl.create({
+      message: mensaje,
+      duration: 2500,
+      position: 'bottom',
+      color: color,
+      icon: icono
+    });
+    await toast.present();
   }
 }
