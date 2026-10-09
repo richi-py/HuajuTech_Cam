@@ -368,12 +368,11 @@ ion-content.profile-content {
       padding: 8px 14px;
       border-radius: 20px;
       font-size: 13px;
-      font-weight: 700;
-      color: #457528;
-      cursor: pointer;
+      font-weight: 600;
+      font-weight: bold;
+      color: #618259;
       transition: all 0.3s ease;
       font-style: oblique;
-      
       &.active {
         background-color: #28491f;
         color: #ffffff;

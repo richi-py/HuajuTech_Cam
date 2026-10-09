@@ -54,10 +54,9 @@ export class FolderPage {
   connectedDevicesCount: number = 2;
   isPumpActive: boolean = false;
 
-  constructor(
-    private actionSheetCtrl: ActionSheetController,
-    private toastCtrl: ToastController
-  ) {
+  
+
+  constructor(private actionSheetCtrl: ActionSheetController) {
     addIcons({
       'leaf-outline': leafOutline,
       'radio-outline': radioOutline,
