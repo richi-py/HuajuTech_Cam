@@ -191,7 +191,7 @@ ion-menu-button {
     height: 48px;
     border-radius: 24px;
     --border-radius: 24px;
-    display: flex;
+    display: grid flex;
     flex-direction: row;
     gap: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -220,5 +220,400 @@ ion-menu-button {
     --background: #ff767b;
     --background-hover: #d23c41;
     --color: #ffffff;
+  }
+}
+
+/* Fondo para la vista de perfil en color verde menta claro */
+ion-content.profile-content {
+  --background: #00a32c; /* Verde menta claro agrícola */
+  background: #00a32c;
+}
+
+/* Ajustes adicionales de la vista de perfil adaptados al tema agrícola */
+
+/* Botón de notificación en el Toolbar */
+.notifications-btn {
+  --color: #28491f;
+  font-size: 20px;
+}
+
+/* Contenedor principal de la pantalla de perfil */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  position: relative;
+  min-height: calc(100vh - 80px);
+}
+
+/* Círculo de la foto de perfil */
+.profile-avatar-wrapper {
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  margin-bottom: -60px; /* Desplaza el avatar hacia dentro de la tarjeta */
+
+  .avatar-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: #28491f; /* Verde oscuro acorde a tu paleta agrícola */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 4px solid #d1ebd8; /* Mismo verde menta del fondo */
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      ion-icon {
+        font-size: 110px;
+        color: #c1e0c4;
+        margin-top: 25px;
+      }
+    }
+  }
+}
+
+/* Tarjeta Blanca Inferior */
+.profile-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 32px 32px 0 0;
+  padding: 80px 24px 40px 24px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  flex-grow: 1;
+}
+
+/* Control segmentado Personal / Business */
+.profile-segment-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+
+  .segmented-control {
+    display: flex;
+    background: #eaf5ec;
+    border-radius: 20px;
+    padding: 3px;
+    width: 220px;
+    border: 1px solid #28491f;
+
+    .segment-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #618259;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &.active {
+        background: #c1e0c4;
+        color: #1f3717;
+      }
+    }
+  }
+}
+
+/* Campos de entrada e información */
+.profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  .profile-field-group {
+    display: flex;
+    flex-direction: column;
+
+    .field-label {
+      font-size: 13px;
+      color: #728c6e;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .field-input-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1.5px solid #d1ebd8;
+      padding-bottom: 6px;
+
+      .profile-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f3717;
+      }
+
+      .edit-icon {
+        font-size: 18px;
+        color: #28491f;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/* Tarjetas Generales de Estado */
+.status-card-alert {
+  width: 100%;
+  margin: 0 0 20px 0;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid transparent;
+  overflow: hidden;
+
+  ion-card-header {
+    padding: 20px 20px 8px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  ion-card-content {
+    padding: 10px 20px 20px 20px;
+  }
+}
+
+/* Badges de Estado */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+
+  ion-icon {
+    font-size: 16px;
+  }
+}
+
+/* Titular de Tarjeta */
+.card-main-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* Texto Introductorio */
+.intro-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* Subtítulos de Secciones */
+.section-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+/* Listado de Recomendaciones */
+.recommendations-list {
+  background: transparent !important;
+  padding: 0;
+  margin-bottom: 20px;
+
+  ion-item {
+    --background: transparent !important;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+    --border-color: rgba(0, 0, 0, 0.08);
+
+    .list-icon {
+      font-size: 22px;
+      margin-inline-end: 12px;
+    }
+
+    ion-label {
+      margin: 10px 0;
+
+      h3 {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+
+      p {
+        font-size: 12.5px;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+/* Enlaces / Recursos Externos Estilizados */
+.resources-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+
+  h5 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+  }
+
+  .resource-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .resource-chip {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+
+    ion-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+
+    span {
+      flex: 1;
+    }
+
+    .external-icon {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-right: 0;
+    }
+  }
+}
+
+/* VARIACIÓN 1: Alerta / Mal Estado (Amarillo / Ámbar Cálido) */
+.status-card-warning {
+  background: #fffdf5;
+  border-color: #fce39e;
+
+  .warning-badge {
+    background: #fef0c7;
+    color: #93370d;
+  }
+
+  .card-main-title {
+    color: #7a2e0e !important;
+  }
+
+  .intro-text, .section-subtitle, .recommendations-list ion-label h3 {
+    color: #7a2e0e;
+  }
+
+  .recommendations-list ion-label p {
+    color: #93370d;
+  }
+
+  .list-icon {
+    color: #b54708;
+  }
+
+  .resources-section h5 {
+    color: #7a2e0e;
+  }
+
+  .resource-chip {
+    background: #fef7e6;
+    color: #b54708;
+    border: 1px solid #fce39e;
+
+    &:active {
+      background: #fce39e;
+    }
+  }
+}
+
+/* VARIACIÓN 2: Estado Óptimo / Buen Estado (Verde Agrícola Elegante) */
+.status-card-success {
+  background: #f6fbf7;
+  border-color: #c1e0c4;
+
+  .success-badge {
+    background: #d1ebd8;
+    color: #1f4e24;
+  }
+
+  .card-main-title {
+    color: #1f3717 !important;
+  }
+
+  .intro-text, .section-subtitle, .recommendations-list ion-label h3 {
+    color: #1f3717;
+  }
+
+  .recommendations-list ion-label p {
+    color: #28491f;
+  }
+
+  .list-icon {
+    color: #28491f;
+  }
+
+  .resources-section h5 {
+    color: #1f3717;
+  }
+
+  .resource-chip {
+    background: #eaf5ec;
+    color: #1f4e24;
+    border: 1px solid #c1e0c4;
+
+    &:active {
+      background: #c1e0c4;
+    }
+  }
+}
+
+/* VARIACIÓN 3: Sin Diagnóstico (Rojo Suave / Neutro) */
+.status-card-empty {
+  background: #fff8f8;
+  border-color: #fecdca;
+
+  .empty-badge {
+    background: #fee4e2;
+    color: #912018;
+  }
+
+  .card-main-title {
+    color: #7a271a !important;
+  }
+
+  p {
+    color: #912018;
+    font-size: 13.5px;
   }
 }

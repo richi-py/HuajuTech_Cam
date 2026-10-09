@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding" style="--background: white; background: white;">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -77,14 +77,236 @@
         <span class="pump-text">{{ isPumpActive ? 'Bomba Activada' : 'Bomba Desactivada' }}</span>
       </ion-fab-button>
     </ion-fab>
-  } @else {
+
+  } @else if (folder() && folder().toLowerCase().includes('recomendaciones')){
+      
+      @if (estado === 'planta_en_mal_estado') {
+        <ion-card class="status-card-alert status-card-warning">
+          <!-- Encabezado con badge e icono de estado -->
+          <ion-card-header>
+            <div class="status-badge warning-badge">
+              <ion-icon name="warning-outline"></ion-icon>
+              <span>Atención Requerida</span>
+            </div>
+            <ion-card-title class="card-main-title">La planta está en mal estado</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- Introducción -->
+            <p class="intro-text">
+              Si tu planta se está secando, determina si está completando su ciclo natural de cosecha o si sufre por estrés hídrico, exceso de calor o plagas.
+            </p>
+
+            <!-- Pasos / Recomendaciones estructuradas -->
+            <div class="section-subtitle">Acciones recomendadas:</div>
+            
+            <ion-list lines="full" class="recommendations-list">
+              <ion-item>
+                <ion-icon name="water-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Riego y Bomba de Agua</h3>
+                  <p>Si es por falta de agua, activa la bomba desde la sección <strong>Zona de Cultivo</strong>. Mantén el suelo húmedo sin encharcar (2 veces por semana).</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="sunny-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Protección Térmica</h3>
+                  <p>Si hay exceso de calor, provee sombra parcial en horas pico (12:00 PM a 4:00 PM) o traslada la planta a una zona fresca.</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="medkit-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Poda y Sanidad</h3>
+                  <p>Retira hojas secas o podridas con tijeras desinfectadas para evitar el gasto innecesario de energía.</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="layers-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Retención de Humedad</h3>
+                  <p>Coloca acolchado alrededor de las raíces para reducir la evaporación del agua.</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <!-- Fuentes externas estilizadas -->
+            <div class="resources-section">
+              <h5>Documentación y Guías de Apoyo:</h5>
+              <div class="resource-links">
+                <a href="https://plantix.net/es/library/plant-diseases/100114/dry-root-rot-of-bean/" target="_blank" class="resource-chip">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <span>Enfermedad de la raíz seca</span>
+                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
+                </a>
+                <a href="https://hydroenv.com.mx/cultivo-de-frijol-guia-completa-de-siembra-manejo-y-cosecha/" target="_blank" class="resource-chip">
+                  <ion-icon name="book-outline"></ion-icon>
+                  <span>Guía completa de cuidado</span>
+                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
+                </a>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      } @else if (estado === 'planta_en_buen_estado') {
+
+        <ion-card class="status-card-alert status-card-success">
+          <ion-card-header>
+            <div class="status-badge success-badge">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <span>Estado Óptimo</span>
+            </div>
+            <ion-card-title class="card-main-title">La planta está en buen estado</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p class="intro-text">
+              ¡Excelente trabajo! Las condiciones actuales del cultivo son favorables. Sigue las siguientes pautas de mantenimiento:
+            </p>
+
+            <ion-list lines="full" class="recommendations-list">
+              <ion-item>
+                <ion-icon name="sunny-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Iluminación Solar</h3>
+                  <p>Asegúrate de que reciba de 6 a 8 horas directas de luz solar al día para fortalecer el tallo.</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="nutrition-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Nutrición Orgánica</h3>
+                  <p>Aplica humus de lombriz o fertilizante orgánico cada 3 o 4 semanas para impulsar la floración.</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="git-branch-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Tutorado y Soporte</h3>
+                  <p>Si es variedad de enredadera, instala tutores o guías para promover un crecimiento vertical ordenado.</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="search-outline" slot="start" class="list-icon"></ion-icon>
+                <ion-label class="ion-text-wrap">
+                  <h3>Inspección Preventiva</h3>
+                  <p>Revisa periódicamente el envés de las hojas para detectar a tiempo pulgones o mosca blanca.</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <div class="resources-section">
+              <h5>Documentación y Guías de Apoyo:</h5>
+              <div class="resource-links">
+                <a href="https://plantix.net/es/library/plant-diseases/100114/dry-root-rot-of-bean/" target="_blank" class="resource-chip">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <span>Enfermedad de la raíz seca</span>
+                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
+                </a>
+                <a href="https://hydroenv.com.mx/cultivo-de-frijol-guia-completa-de-siembra-manejo-y-cosecha/" target="_blank" class="resource-chip">
+                  <ion-icon name="book-outline"></ion-icon>
+                  <span>Guía completa de cuidado</span>
+                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
+                </a>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      } @else {
+
+        <!-- Estado por defecto cuando no hay diagnóstico aún -->
+        <ion-card class="status-card-alert status-card-empty">
+          <ion-card-header>
+            <div class="status-badge empty-badge">
+              <ion-icon name="help-circle-outline"></ion-icon>
+              <span>Sin Diagnóstico</span>
+            </div>
+            <ion-card-title class="card-main-title">Estado no registrado</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <p>No se han recopilado datos suficientes de los sensores para generar recomendaciones en este momento.</p>
+          </ion-card-content>
+        </ion-card>
+
+      }
+
+  }@else if (folder() && (folder().toLowerCase().includes('Perfil') || folder().toLowerCase().includes('perfil'))){
+
+    <!-- Input Oculto para cargar la foto -->
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
+
+    <div class="profile-container">
+      <!-- Sección Header del Avatar de Perfil -->
+      <div class="profile-avatar-wrapper" (click)="openPhotoMenu()">
+        <div class="avatar-circle">
+          @if (profileImage) {
+            <img [src]="profileImage" alt="Foto de perfil" class="avatar-img" />
+          } @else {
+            <div class="avatar-placeholder">
+              <ion-icon name="person"></ion-icon>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Tarjeta Blanca de Información -->
+      <div class="profile-card">
+        <!-- Tab Selector: Personal / Business -->
+        <div class="profile-segment-container">
+          <div class="segmented-control">
+            <button class="segment-btn" [class.active]="profileType === 'personal'" (click)="profileType = 'personal'">
+              Personal
+            </button>
+            <button class="segment-btn" [class.active]="profileType === 'business'" (click)="profileType = 'business'">
+              Business
+            </button>
+          </div>
+        </div>
+
+        <!-- Campos de Información -->
+        <div class="profile-fields">
+          <div class="profile-field-group">
+            <label class="field-label">Name</label>
+            <div class="field-input-row">
+              <input type="text" [(ngModel)]="profileData.name" class="profile-input" placeholder="Ingresa tu nombre" />
+              <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
+            </div>
+          </div>
+
+          <div class="profile-field-group">
+            <label class="field-label">E-mail</label>
+            <div class="field-input-row">
+              <input type="email" [(ngModel)]="profileData.email" class="profile-input" placeholder="ejemplo@gmail.com" />
+              <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
+            </div>
+          </div>
+
+          <div class="profile-field-group">
+            <label class="field-label">Website</label>
+            <div class="field-input-row">
+              <input type="text" [(ngModel)]="profileData.website" class="profile-input" placeholder="www.tusitio.com" />
+              <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  }@else {
     <!-- Vista por defecto para cualquier otra opción del menú lateral -->
     <div class="ion-padding text-center">
       <h2>Contenido de {{ folder() }}</h2>
-      <p>Selecciona "Zona de Cultivo" en el menú para ver la cuadrícula de sensores.</p>
+      <p>Si no ve contenido. Seleccione "{{ folder() }}" en el menú para ver el contenido de la pestaña.</p>
     </div>
   }
-
-
 
 </ion-content>
