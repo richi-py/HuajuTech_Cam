@@ -1,7 +1,38 @@
-ion-menu-button {
-  color: var(--ion-color-primary);
+/* ==========================================================================
+   RESET DE FONDO (Solución al fondo negro / modo oscuro del sistema)
+   ========================================================================== */
+:host {
+  display: block;
+  background-color: #f6fbf7 !important;
 }
 
+ion-content {
+  --background: #f6fbf7 !important;
+  background: #f6fbf7 !important;
+  --color: #1f3717;
+}
+
+/* Header y Barra Superior unificada con el Login */
+ion-toolbar {
+  --background: #28491f !important;
+  --color: #ffffff !important;
+  color: #ffffff !important;
+
+  ion-title {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffffff !important;
+  }
+
+  ion-menu-button {
+    --color: #ffffff !important;
+    color: #ffffff !important;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS GENERALES
+   ========================================================================== */
 #container {
   text-align: center;
   position: absolute;
@@ -9,25 +40,27 @@ ion-menu-button {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+
+  strong {
+    font-size: 20px;
+    line-height: 26px;
+    color: #1f3717;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 22px;
+    color: #728c6e;
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: #28491f;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-
-/* Tarjetas principales con el mismo tamaño, fondo y diseño uniforme */
+/* Tarjetas Principales Blancas y Uniformes */
 .controls-card,
 .status-card,
 .crop-grid {
@@ -35,32 +68,39 @@ ion-menu-button {
   box-sizing: border-box;
   margin-left: 0;
   margin-right: 0;
-  border-radius: 14px;
-  background: #c1e0c4e8;
-  box-shadow: 0 2px 6px rgb(40, 73, 31);
+  border-radius: 20px;
+  background: #ffffff !important;
+  border: 1px solid #c1e0c4;
+  box-shadow: 0 6px 20px rgba(40, 73, 31, 0.12);
 }
 
-/* Tarjeta de controles superior */
+/* ==========================================================================
+   TARJETA DE CONTROLES SUPERIOR (Filas / Columnas)
+   ========================================================================== */
 .controls-card {
-  padding: 10px 14px;
-  margin-bottom: 14px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 
   ion-item {
     --background: transparent !important;
     background: transparent !important;
-    --min-height: 32px;
+    --min-height: 38px;
     --padding-start: 0;
     --padding-end: 0;
+    --inner-padding-end: 0;
     margin: 0;
-    color: rgb(45, 75,40);
+    color: #1f3717;
+    font-weight: 700;
+    font-size: 14px;
 
     ion-range {
-      --bar-background: rgba(255, 255, 255, 0.5);
-      --bar-background-active: rgb(40, 73, 31);
-      --knob-background: rgb(40, 73, 31);
+      --bar-background: #d1ebd8;
+      --bar-background-active: #28491f;
+      --knob-background: #28491f;
+      --knob-size: 18px;
       background: transparent;
       padding: 2px 0;
       width: 100%;
@@ -68,66 +108,73 @@ ion-menu-button {
   }
 }
 
-/* Cuadrícula interactiva */
+/* ==========================================================================
+   CUADRÍCULA INTERACTIVA (Cultivo)
+   ========================================================================== */
 .crop-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
-  gap: 10px;
-  padding: 14px;
+  gap: 12px;
+  padding: 18px;
   margin-bottom: 16px;
   align-items: center;
 
   .grid-cell {
     aspect-ratio: 1;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(40, 73, 31, 0.4);
-    border-radius: 10px;
+    background: #f6fbf7;
+    border: 1.5px solid #c1e0c4;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.25s ease-in-out;
+    cursor: pointer;
 
     ion-icon {
-      font-size: 24px;
-      color: rgb(40, 73, 31);
+      font-size: 26px;
+      color: #28491f;
     }
 
     .cell-label {
       font-size: 11px;
-      font-weight: 600;
-      margin-top: 2px;
-      color: rgb(40, 73, 31);
+      font-weight: 700;
+      margin-top: 4px;
+      color: #1f3717;
     }
 
     &.has-device {
-      background: rgba(40, 73, 31, 0.22);
-      border-color: rgb(40, 73, 31);
+      background: #d1ebd8;
+      border-color: #28491f;
+      box-shadow: 0 2px 8px rgba(40, 73, 31, 0.15);
 
       ion-icon {
-        color: rgb(40, 73, 31);
+        color: #28491f;
       }
 
       .cell-label {
-        color: rgb(20, 40, 15);
+        color: #1f3717;
       }
     }
   }
 }
 
-/* Tarjeta de estado del sistema */
+/* ==========================================================================
+   TARJETA DE ESTADO DEL SISTEMA
+   ========================================================================== */
 .status-card {
-  padding: 12px 14px;
-  margin-bottom: 100px; /* Margen mayor para que el FAB alargado no tape el contenido */
+  padding: 18px 20px;
+  margin-bottom: 100px; /* Espacio para no tapar el botón flotante */
 
   ion-card-header {
-    padding: 0 0 6px 0;
+    padding: 0 0 10px 0;
     background: transparent !important;
 
     ion-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: rgb(30, 55, 23) !important;
+      font-size: 18px;
+      font-weight: 800;
+      color: #1f3717 !important;
+      letter-spacing: -0.3px;
     }
   }
 
@@ -144,57 +191,60 @@ ion-menu-button {
   ion-item {
     --background: transparent !important;
     background: transparent !important;
-    --min-height: 40px;
+    --min-height: 42px;
     --padding-start: 0;
     --padding-end: 0;
-    margin-bottom: 2px;
+    --inner-padding-end: 0;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
 
     ion-icon {
-      font-size: 22px;
-      margin-right: 10px;
-      margin-inline-end: 10px;
-      color: rgb(40, 73, 31);
+      font-size: 24px;
+      margin-right: 12px;
+      margin-inline-end: 12px;
+      color: #28491f;
       flex-shrink: 0;
     }
 
     ion-label {
       margin: 0;
-      
+
       h3 {
-        color: rgb(30, 55, 23);
+        color: #1f3717;
         font-weight: 700;
-        font-size: 13px;
-        margin-bottom: 1px;
+        font-size: 13.5px;
+        margin-bottom: 2px;
       }
       p {
-        color: rgb(45, 75, 40);
+        color: #457528;
         font-weight: 600;
-        font-size: 11.5px;
+        font-size: 12px;
         margin: 0;
       }
     }
   }
 }
 
-/* Contenedor y diseño personalizado del Botón Flotante (FAB) alargado */
+/* ==========================================================================
+   BOTÓN FLOTANTE (FAB) DE LA BOMBA
+   ========================================================================== */
 .pump-fab-container {
   left: 0 !important;
   right: 0 !important;
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 
   ion-fab-button {
-    width: 360px; /* Ancho fijo alargado tipo pastilla */
+    width: 340px;
     height: 48px;
     border-radius: 24px;
     --border-radius: 24px;
-    display: grid flex;
+    display: flex;
     flex-direction: row;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 16px rgba(40, 73, 31, 0.2);
     transition: all 0.3s ease;
 
     ion-icon {
@@ -202,38 +252,42 @@ ion-menu-button {
     }
 
     .pump-text {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.3px;
     }
   }
 
-  /* Estado cuando la bomba está apagada / inactiva */
+  /* Estado Inactivo */
   ion-fab-button.pump-inactive {
-    --background: #c1e0c4;
-    --background-hover: #b0d3b4;
-    --color: rgb(40, 73, 31);
+    --background: #e4f2e6;
+    --background-hover: #d1ebd8;
+    --color: #28491f;
+    border: 1px solid #c1e0c4;
   }
 
-  /* Estado cuando la bomba está encendida / activa */
+  /* Estado Activo */
   ion-fab-button.pump-active {
-    --background: #ff767b;
-    --background-hover: #d23c41;
+    --background: #28491f;
+    --background-hover: #1f3717;
     --color: #ffffff;
+    box-shadow: 0 6px 20px rgba(40, 73, 31, 0.35);
   }
 }
 
+/* ==========================================================================
+   VISTA DE PERFIL Y PESTAÑAS
+   ========================================================================== */
+ion-content.profile-content {
+  --background: #f6fbf7 !important;
+  background: #f6fbf7 !important;
+}
 
-
-/* Ajustes adicionales de la vista de perfil adaptados al tema agrícola */
-
-/* Botón de notificación en el Toolbar */
 .notifications-btn {
-  --color: #28491f;
+  --color: #ffffff;
   font-size: 20px;
 }
 
-/* Contenedor principal de la pantalla de perfil */
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -243,24 +297,23 @@ ion-menu-button {
   min-height: calc(100vh - 80px);
 }
 
-/* Círculo de la foto de perfil */
 .profile-avatar-wrapper {
   position: relative;
   z-index: 10;
   cursor: pointer;
-  margin-bottom: -60px; /* Desplaza el avatar hacia dentro de la tarjeta */
+  margin-bottom: -60px;
 
   .avatar-circle {
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    background-color: #28491f; /* Verde oscuro acorde a tu paleta agrícola */
+    background-color: #28491f;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 4px solid #d1ebd8; /* Mismo verde menta del fondo */
+    box-shadow: 0 4px 16px rgba(40, 73, 31, 0.2);
+    border: 4px solid #ffffff;
 
     .avatar-img {
       width: 100%;
@@ -284,17 +337,16 @@ ion-menu-button {
   }
 }
 
-/* Tarjeta Blanca Inferior */
 .profile-card {
   width: 100%;
-  background: #ffffff;
+  background: #ffffff !important;
   border-radius: 32px 32px 0 0;
   padding: 80px 24px 40px 24px;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #c1e0c4;
+  box-shadow: 0 -4px 16px rgba(40, 73, 31, 0.08);
   flex-grow: 1;
 }
 
-/* Control segmentado Personal / Business */
 .profile-segment-container {
   display: flex;
   justify-content: center;
@@ -302,36 +354,34 @@ ion-menu-button {
 
   .segmented-control {
     display: flex;
-    background: #eaf5ec;
-    border-radius: 20px;
-    padding: 3px;
+    background-color: #e4f2e6;
+    border: 1px solid #c1e0c4;
+    border-radius: 25px;
+    padding: 4px;
     width: 220px;
-    border: 1px solid #28491f;
 
     .segment-btn {
       text-align: center;
       flex: 1;
       border: none;
       background: transparent;
-      padding: 6px 12px;
-      border-radius: 16px;
+      padding: 8px 14px;
+      border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
       font-weight: bold;
       color: #618259;
-      cursor: pointer;
       transition: all 0.3s ease;
       font-style: oblique;
-      
       &.active {
-        background: #c1e0c4;
-        color: #1f3717;
+        background-color: #28491f;
+        color: #ffffff;
+        box-shadow: 0 2px 8px rgba(40, 73, 31, 0.25);
       }
     }
   }
 }
 
-/* Campos de entrada e información */
 .profile-fields {
   display: flex;
   flex-direction: column;
@@ -373,12 +423,14 @@ ion-menu-button {
   }
 }
 
-/* Tarjetas Generales de Estado */
+/* ==========================================================================
+   TARJETAS DE DIAGNÓSTICO Y ALERTAS
+   ========================================================================== */
 .status-card-alert {
   width: 100%;
   margin: 0 0 20px 0;
   border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(40, 73, 31, 0.08);
   border: 1px solid transparent;
   overflow: hidden;
 
@@ -394,7 +446,6 @@ ion-menu-button {
   }
 }
 
-/* Badges de Estado */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -412,21 +463,18 @@ ion-menu-button {
   }
 }
 
-/* Titular de Tarjeta */
 .card-main-title {
   font-size: 22px;
   font-weight: 800;
   line-height: 1.25;
 }
 
-/* Texto Introductorio */
 .intro-text {
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 16px;
 }
 
-/* Subtítulos de Secciones */
 .section-subtitle {
   font-size: 13px;
   font-weight: 700;
@@ -435,7 +483,6 @@ ion-menu-button {
   margin-bottom: 8px;
 }
 
-/* Listado de Recomendaciones */
 .recommendations-list {
   background: transparent !important;
   padding: 0;
@@ -446,7 +493,7 @@ ion-menu-button {
     --padding-start: 0;
     --padding-end: 0;
     --inner-padding-end: 0;
-    --border-color: rgba(0, 0, 0, 0.08);
+    --border-color: #d1ebd8;
 
     .list-icon {
       font-size: 22px;
@@ -470,11 +517,10 @@ ion-menu-button {
   }
 }
 
-/* Enlaces / Recursos Externos Estilizados */
 .resources-section {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+  border-top: 1px dashed #c1e0c4;
 
   h5 {
     font-size: 13px;
@@ -515,9 +561,9 @@ ion-menu-button {
   }
 }
 
-/* VARIACIÓN 1: Alerta / Mal Estado (Amarillo / Ámbar Cálido) */
+/* Variación: Advertencia (Ámbar) */
 .status-card-warning {
-  background: #fffdf5;
+  background: #fffdf5 !important;
   border-color: #fce39e;
 
   .warning-badge {
@@ -556,14 +602,14 @@ ion-menu-button {
   }
 }
 
-/* VARIACIÓN 2: Estado Óptimo / Buen Estado (Verde Agrícola Elegante) */
+/* Variación: Estado Óptimo (Verde Agrícola) */
 .status-card-success {
-  background: #f6fbf7;
+  background: #f6fbf7 !important;
   border-color: #c1e0c4;
 
   .success-badge {
     background: #d1ebd8;
-    color: #1f4e24;
+    color: #1f3717;
   }
 
   .card-main-title {
@@ -587,8 +633,8 @@ ion-menu-button {
   }
 
   .resource-chip {
-    background: #eaf5ec;
-    color: #1f4e24;
+    background: #e4f2e6;
+    color: #1f3717;
     border: 1px solid #c1e0c4;
 
     &:active {
@@ -597,9 +643,9 @@ ion-menu-button {
   }
 }
 
-/* VARIACIÓN 3: Sin Diagnóstico (Rojo Suave / Neutro) */
+/* Variación: Sin Diagnóstico (Rojo Suave) */
 .status-card-empty {
-  background: #fff8f8;
+  background: #fff8f8 !important;
   border-color: #fecdca;
 
   .empty-badge {

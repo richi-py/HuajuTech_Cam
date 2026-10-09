@@ -5,9 +5,9 @@ import {
   RefresherCustomEvent, IonRefresher, IonRefresherContent, 
   IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, 
   IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, 
-  IonFab, IonButton, IonFabButton, ActionSheetController, 
-  IonSpinner, ToastController
-} from '@ionic/angular';
+  IonFab, IonFabButton, ActionSheetController 
+}
+from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   leafOutline, radioOutline, wifiOutline, playOutline, pauseOutline, 
@@ -15,8 +15,9 @@ import {
   warningOutline, checkmarkCircleOutline, helpCircleOutline, 
   waterOutline, sunnyOutline, medkitOutline, layersOutline, 
   nutritionOutline, gitBranchOutline, searchOutline, 
-  documentTextOutline, bookOutline, openOutline, saveOutline, alertCircleOutline
-} from 'ionicons/icons';
+  documentTextOutline, bookOutline, openOutline
+} 
+from 'ionicons/icons';
 
 @Component({
   selector: 'app-folder',
@@ -53,10 +54,9 @@ export class FolderPage {
   connectedDevicesCount: number = 2;
   isPumpActive: boolean = false;
 
-  constructor(
-    private actionSheetCtrl: ActionSheetController,
-    private toastCtrl: ToastController
-  ) {
+  
+
+  constructor(private actionSheetCtrl: ActionSheetController) {
     addIcons({
       'leaf-outline': leafOutline,
       'radio-outline': radioOutline,
