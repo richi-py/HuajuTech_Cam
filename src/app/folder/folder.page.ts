@@ -6,7 +6,8 @@ import {
   IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, 
   IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, 
   IonFab, IonFabButton, ActionSheetController 
-} from '@ionic/angular';
+}
+from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   leafOutline, radioOutline, wifiOutline, playOutline, pauseOutline, 
@@ -15,7 +16,8 @@ import {
   waterOutline, sunnyOutline, medkitOutline, layersOutline, 
   nutritionOutline, gitBranchOutline, searchOutline, 
   documentTextOutline, bookOutline, openOutline
-} from 'ionicons/icons';
+} 
+from 'ionicons/icons';
 
 @Component({
   selector: 'app-folder',
@@ -49,6 +51,8 @@ export class FolderPage {
   loraConnected: boolean = true;
   connectedDevicesCount: number = 2;
   isPumpActive: boolean = false;
+
+  
 
   constructor(private actionSheetCtrl: ActionSheetController) {
     addIcons({
