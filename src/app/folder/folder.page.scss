@@ -27,33 +27,60 @@ ion-menu-button {
   text-decoration: none;
 }
 
-.controls-card {
-  border-radius: 25px;
-  border-radius: 12px;
-  align-items: center;
-  display: grid;
-  background: rgba(193, 224, 196, 0.908);
-  gap: 10px;
-  padding: 16px;
-  margin-bottom: 20px;
+/* Tarjetas principales con el mismo tamaño, fondo y diseño uniforme */
+.controls-card,
+.status-card,
+.crop-grid {
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 14px;
+  background: #c1e0c4e8;
   box-shadow: 0 2px 6px rgb(40, 73, 31);
 }
 
+/* Tarjeta de controles superior */
+.controls-card {
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  ion-item {
+    --background: transparent !important;
+    background: transparent !important;
+    --min-height: 32px;
+    --padding-start: 0;
+    --padding-end: 0;
+    margin: 0;
+    color: rgb(45, 75,40);
+
+    ion-range {
+      --bar-background: rgba(255, 255, 255, 0.5);
+      --bar-background-active: rgb(40, 73, 31);
+      --knob-background: rgb(40, 73, 31);
+      background: transparent;
+      padding: 2px 0;
+      width: 100%;
+    }
+  }
+}
+
+/* Cuadrícula interactiva */
 .crop-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
   gap: 10px;
-  padding: 16px;
-  background: rgba(193, 224, 196, 0.908);
-  border-radius: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 6px rgb(40, 73, 31);
+  padding: 14px;
+  margin-bottom: 16px;
   align-items: center;
 
   .grid-cell {
     aspect-ratio: 1;
-    background: #014967;
-    border: 1px solid #cccccc;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(40, 73, 31, 0.4);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -62,34 +89,136 @@ ion-menu-button {
     transition: all 0.25s ease-in-out;
 
     ion-icon {
-      font-size: 26px;
-      color: #565555;
+      font-size: 24px;
+      color: rgb(40, 73, 31);
     }
 
     .cell-label {
       font-size: 11px;
-      font-weight: 500;
-      margin-top: 4px;
-      color: #565555;
+      font-weight: 600;
+      margin-top: 2px;
+      color: rgb(40, 73, 31);
     }
 
     &.has-device {
-      background: rgba(0, 140, 190, 0.652);
-      border-color: #018b90;
+      background: rgba(40, 73, 31, 0.22);
+      border-color: rgb(40, 73, 31);
 
       ion-icon {
-        color: #018b90;
+        color: rgb(40, 73, 31);
+      }
+
+      .cell-label {
+        color: rgb(20, 40, 15);
       }
     }
   }
 }
 
+/* Tarjeta de estado del sistema */
 .status-card {
-  margin-bottom: 90px; /* Margen inferior para evitar que el FAB cubra el contenido */
-  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 100px; /* Margen mayor para que el FAB alargado no tape el contenido */
+
+  ion-card-header {
+    padding: 0 0 6px 0;
+    background: transparent !important;
+
+    ion-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: rgb(30, 55, 23) !important;
+    }
+  }
+
+  ion-card-content {
+    padding: 0;
+    background: transparent !important;
+  }
+
+  ion-list {
+    background: transparent !important;
+    padding: 0;
+  }
+
+  ion-item {
+    --background: transparent !important;
+    background: transparent !important;
+    --min-height: 40px;
+    --padding-start: 0;
+    --padding-end: 0;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+
+    ion-icon {
+      font-size: 22px;
+      margin-right: 10px;
+      margin-inline-end: 10px;
+      color: rgb(40, 73, 31);
+      flex-shrink: 0;
+    }
+
+    ion-label {
+      margin: 0;
+      
+      h3 {
+        color: rgb(30, 55, 23);
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 1px;
+      }
+      p {
+        color: rgb(45, 75, 40);
+        font-weight: 600;
+        font-size: 11.5px;
+        margin: 0;
+      }
+    }
+  }
 }
 
-ion-fab {
-  margin-bottom: 16px;
-  margin-right: 16px;
+/* Contenedor y diseño personalizado del Botón Flotante (FAB) alargado */
+.pump-fab-container {
+  left: 0 !important;
+  right: 0 !important;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+
+  ion-fab-button {
+    width: 360px; /* Ancho fijo alargado tipo pastilla */
+    height: 48px;
+    border-radius: 24px;
+    --border-radius: 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    .pump-text {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  /* Estado cuando la bomba está apagada / inactiva */
+  ion-fab-button.pump-inactive {
+    --background: #c1e0c4;
+    --background-hover: #b0d3b4;
+    --color: rgb(40, 73, 31);
+  }
+
+  /* Estado cuando la bomba está encendida / activa */
+  ion-fab-button.pump-active {
+    --background: #ff767b;
+    --background-hover: #d23c41;
+    --color: #ffffff;
+  }
 }

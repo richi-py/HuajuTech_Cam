@@ -1,6 +1,8 @@
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonItem, IonCard, IonRange, IonCardContent, RefresherCustomEvent, IonRefresher, IonRefresherContent, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, IonFab, IonFabButton } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { leafOutline, radioOutline, wifiOutline, playOutline, pauseOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-folder',
@@ -10,6 +12,17 @@ import { IonHeader, IonItem, IonCard, IonRange, IonCardContent, RefresherCustomE
 })
 export class FolderPage {
   readonly folder = input.required<string>();
+
+  constructor() {
+    // 2. Registra los iconos para que Ionic pueda renderizarlos correctamente
+    addIcons({
+      'leaf-outline': leafOutline,
+      'radio-outline': radioOutline,
+      'wifi-outline': wifiOutline,
+      'play-outline': playOutline,
+      'pause-outline': pauseOutline
+    });
+  }
 
   handleRefresh(event: RefresherCustomEvent) {
     setTimeout(() => {
@@ -44,9 +57,6 @@ export class FolderPage {
   // Control manual de la bomba de agua
   togglePump() {
     this.isPumpActive = !this.isPumpActive;
-
-    // Aquí puedes agregar la llamada a tu API, WebSockets o MQTT hacia el ESP32
     console.log(`Bomba de agua: ${this.isPumpActive ? 'ACTIVADA' : 'DESACTIVADA'}`);
   }
-
 }
