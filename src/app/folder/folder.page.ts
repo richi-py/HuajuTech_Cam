@@ -1,9 +1,10 @@
-import { Component, input, ViewChild, ElementRef } from '@angular/core';
+import { Component, input, ViewChild, ElementRef, OnInit, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 import { 
   IonHeader, IonItem, IonCard, IonRange, IonCardContent, 
   RefresherCustomEvent, IonRefresher, IonRefresherContent, 
-  IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, 
+  IonToolbar, IonButtons, IonButton, IonMenuButton, IonTitle, IonContent, 
   IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, 
   IonFab, IonFabButton, ActionSheetController 
 } from '@ionic/angular';
@@ -14,29 +15,57 @@ import {
   warningOutline, checkmarkCircleOutline, helpCircleOutline, 
   waterOutline, sunnyOutline, medkitOutline, layersOutline, 
   nutritionOutline, gitBranchOutline, searchOutline, 
-  documentTextOutline, bookOutline, openOutline
+  documentTextOutline, bookOutline, openOutline,
+  alertCircleOutline, informationCircleOutline, batteryDeadOutline, checkmarkDoneCircleOutline
 } from 'ionicons/icons';
+
+// Interfaz para la estructura de las alertas
+export interface Alerta {
+  id: number;
+  tipo: 'critical' | 'warning' | 'info';
+  titulo: string;
+  mensaje: string;
+  fecha: Date;
+  icono: string;
+}
 
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
   imports: [
-    IonItem, FormsModule, IonCardHeader, IonCardTitle, IonList, IonLabel, 
+    IonItem, FormsModule, NgClass, IonCardHeader, IonCardTitle, IonList, IonLabel, 
     IonFab, IonFabButton, IonIcon, IonCard, IonRange, IonCardContent, 
     IonRefresherContent, IonRefresher, IonHeader, IonToolbar, IonButtons, 
-    IonMenuButton, IonTitle, IonContent
+    IonMenuButton, IonTitle, IonContent, IonButton,
   ],
 })
-export class FolderPage {
-  estado = "planta_en_buen_estado";
+export class FolderPage implements OnInit, OnDestroy {
+  estado = "planta_en_mal_estado";
   readonly folder = input.required<string>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
+  // Temporizador y señal para actualización relativa del tiempo ("Hace 5 min")
+  private timerId: any;
+  public now = signal<number>(Date.now());
+
+  // Lista de alertas activas. 
+  // Para probar la vista de "Todo bien", simplemente deja este arreglo vacío: public alertas: Alerta[] = [];
+  public alertas: Alerta[] = [
+    {
+      id: 1,
+      tipo: 'critical',
+      titulo: '¡La planta se está secando!',
+      mensaje: 'El sensor de humedad del suelo en la Zona de Cultivo reporta un 12% (nivel muy bajo). Se requiere riego inmediato para evitar estrés hídrico.',
+      fecha: new Date(Date.now() - 2 * 60 * 1000), // Hace 2 minutos
+      icono: 'water-outline'
+    }
+  ];
+
   // Datos del perfil
   profileType: 'personal' | 'business' = 'personal';
-  profileImage: string | null = null; // null simula que la foto está vacía
+  profileImage: string | null = null;
   profileData = {
     name: null,
     email: null,
@@ -75,18 +104,70 @@ export class FolderPage {
       'search-outline': searchOutline,
       'document-text-outline': documentTextOutline,
       'book-outline': bookOutline,
-      'open-outline': openOutline
+      'open-outline': openOutline,
+      'alert-circle-outline': alertCircleOutline,
+      'information-circle-outline': informationCircleOutline,
+      'battery-dead-outline': batteryDeadOutline,
+      'checkmark-done-circle-outline': checkmarkDoneCircleOutline
     });
   }
 
   ngOnInit() {
     this.generateGrid();
+
+    // Actualiza el reloj cada minuto para refrescar "Hace X minutos"
+    this.timerId = setInterval(() => {
+      this.now.set(Date.now());
+    }, 60000);
+  }
+
+  ngOnDestroy() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+  }
+
+  // Método para calcular el tiempo relativo transcurrido
+  public getTimeAgo(fecha: Date): string {
+    const actual = this.now();
+    const diferenciaMs = actual - fecha.getTime();
+    const minutos = Math.floor(diferenciaMs / (1000 * 60));
+    const horas = Math.floor(minutos / 60);
+    const dias = Math.floor(horas / 24);
+
+    if (minutos < 1) {
+      return 'Hace un momento';
+    } else if (minutos < 60) {
+      return `Hace ${minutos} min`;
+    } else if (horas < 24) {
+      return `Hace ${horas} ${horas === 1 ? 'hora' : 'horas'}`;
+    } else {
+      return `Hace ${dias} ${dias === 1 ? 'día' : 'días'}`;
+    }
+  }
+
+  // Métodos auxiliares para probar o limpiar alertas desde la UI si lo necesitas
+  public limpiarAlertas() {
+    this.alertas = [];
+  }
+
+  public simularAlertaSecado() {
+    this.alertas = [
+      {
+        id: Date.now(),
+        tipo: 'critical',
+        titulo: '¡La planta se está secando!',
+        mensaje: 'El sensor de humedad del suelo reporta un nivel crítico. Activa la bomba de agua.',
+        fecha: new Date(),
+        icono: 'water-outline'
+      }
+    ];
   }
 
   handleRefresh(event: RefresherCustomEvent) {
     setTimeout(() => {
       event.target.complete();
-    }, 2000);
+    }, 1500);
   }
 
   generateGrid() {
@@ -104,7 +185,6 @@ export class FolderPage {
     this.isPumpActive = !this.isPumpActive;
   }
 
-  // Despliega las opciones al presionar el avatar
   async openPhotoMenu() {
     const hasPhoto = !!this.profileImage;
 
@@ -114,7 +194,7 @@ export class FolderPage {
         {
           text: 'Agregar foto',
           icon: 'add-outline',
-          disabled: hasPhoto, // Bloqueado si YA existe una foto
+          disabled: hasPhoto,
           handler: () => {
             this.triggerFileInput();
           }
@@ -122,7 +202,7 @@ export class FolderPage {
         {
           text: 'Editar foto',
           icon: 'image-outline',
-          disabled: !hasPhoto, // Bloqueado si NO hay foto
+          disabled: !hasPhoto,
           handler: () => {
             this.triggerFileInput();
           }
@@ -131,7 +211,7 @@ export class FolderPage {
           text: 'Eliminar foto',
           role: 'destructive',
           icon: 'trash-outline',
-          disabled: !hasPhoto, // Bloqueado si NO hay foto
+          disabled: !hasPhoto,
           handler: () => {
             this.profileImage = null;
           }
@@ -146,14 +226,12 @@ export class FolderPage {
     await actionSheet.present();
   }
 
-  // Simula el click en el input file oculto
   triggerFileInput() {
     if (this.fileInput) {
       this.fileInput.nativeElement.click();
     }
   }
 
-  // Maneja el archivo de imagen seleccionado
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {

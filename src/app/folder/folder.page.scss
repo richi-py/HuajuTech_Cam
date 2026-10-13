@@ -617,3 +617,115 @@ ion-content.profile-content {
     font-size: 13.5px;
   }
 }
+/* Contenedor de alertas */
+.alerts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+/* Tarjeta base de alerta */
+.alert-card {
+  border-radius: 16px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-left: 6px solid transparent;
+
+  &.critical-alert {
+    border-left-color: var(--ion-color-danger);
+  }
+
+  &.warning-alert {
+    border-left-color: var(--ion-color-warning);
+  }
+
+  &.info-alert {
+    border-left-color: var(--ion-color-medium);
+  }
+}
+
+/* Encabezado superior (Badge y Tiempo) */
+.alert-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.alert-timestamp {
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}
+
+/* Badges de estado */
+.alert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.danger-badge {
+    background-color: rgba(var(--ion-color-danger-rgb), 0.12);
+    color: var(--ion-color-danger);
+  }
+
+  &.warning-badge {
+    background-color: rgba(var(--ion-color-warning-rgb), 0.15);
+    color: #c77700;
+  }
+
+  &.info-badge {
+    background-color: rgba(var(--ion-color-medium-rgb), 0.12);
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+/* Título de la tarjeta */
+.alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+
+  .title-icon {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mensaje y botones */
+.alert-message {
+  font-size: 0.95rem;
+  color: var(--ion-color-dark-medium, #444);
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.alert-actions {
+  margin-top: 10px;
+
+  .action-btn {
+    --border-radius: 10px;
+    font-weight: 600;
+  }
+}
+
+.no-connection-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ion-color-light);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--ion-color-medium-shade);
+  margin-top: 10px;
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
