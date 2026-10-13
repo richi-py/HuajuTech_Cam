@@ -18,11 +18,9 @@
     </ion-toolbar>
   </ion-header>
 
-
   
-  @if (folder() && (folder().toLowerCase().includes('cultivo') || folder().toLowerCase().includes('zona'))){
+  @if (folder() && (folder().toLowerCase().includes('cultivo') || folder().toLowerCase().includes('zona'))) {
     <!-- Controles para expandir / reducir la cuadrícula -->
-    
     <ion-card class="controls-card">
       <ion-card-content>
         <ion-item lines="none">
@@ -38,7 +36,7 @@
     <div class="crop-grid" [style.--grid-cols]="cols">
       @for (cell of gridCells; track cell.id) {
         <div class="grid-cell" [class.has-device]="cell.hasDevice">
-          <ion-icon [name]="'leaf-outline'"></ion-icon>
+          <ion-icon name="leaf-outline"></ion-icon>
           <span class="cell-label">{{ cell.id }}</span>
         </div>
       }
@@ -69,7 +67,7 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Botón Flotante (FAB) alargado, centrado y estilizado para la bomba de agua -->
+    <!-- Botón Flotante (FAB) para la bomba de agua -->
     <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="pump-fab-container">
       <ion-fab-button 
         [class.pump-active]="isPumpActive" 
@@ -80,11 +78,89 @@
       </ion-fab-button>
     </ion-fab>
 
-  } @else if (folder() && folder().toLowerCase().includes('recomendaciones')){
+  } @else if (folder() && folder().toLowerCase().includes('alerta')) {
+
+    <div class="alerts-container">
+      @if (alertas.length > 0) {
+        
+        <!-- SI HAY ALERTAS: Muestra las tarjetas con la alerta correspondiente -->
+        @for (alerta of alertas; track alerta.id) {
+          <ion-card class="alert-card" [ngClass]="{
+            'critical-alert': alerta.tipo === 'critical',
+            'warning-alert': alerta.tipo === 'warning',
+            'info-alert': alerta.tipo === 'info'
+          }">
+            <ion-card-header>
+              <div class="alert-header-top">
+                <div class="alert-badge" [ngClass]="{
+                  'danger-badge': alerta.tipo === 'critical',
+                  'warning-badge': alerta.tipo === 'warning',
+                  'info-badge': alerta.tipo === 'info'
+                }">
+                  <ion-icon [name]="alerta.tipo === 'critical' ? 'alert-circle-outline' : (alerta.tipo === 'warning' ? 'warning-outline' : 'information-circle-outline')"></ion-icon>
+                  <span>{{ alerta.tipo === 'critical' ? 'Urgente' : (alerta.tipo === 'warning' ? 'Advertencia' : 'Información') }}</span>
+                </div>
+
+                <!-- Tiempo transcurrido -->
+                <span class="alert-timestamp">{{ getTimeAgo(alerta.fecha) }}</span>
+              </div>
+
+              <ion-card-title class="alert-title">
+                <ion-icon [name]="alerta.icono" [color]="alerta.tipo === 'critical' ? 'danger' : (alerta.tipo === 'warning' ? 'warning' : 'medium')" class="title-icon"></ion-icon>
+                {{ alerta.titulo }}
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p class="alert-message">{{ alerta.mensaje }}</p>
+
+              <!-- Botón de acción para riego si es una alerta crítica -->
+              @if (alerta.tipo === 'critical') {
+                @if (loraConnected) {
+                  <div class="alert-actions">
+                    <ion-button expand="block" color="danger" (click)="togglePump()" class="action-btn">
+                      <ion-icon [name]="isPumpActive ? 'pause-outline' : 'water-outline'" slot="start"></ion-icon>
+                      {{ isPumpActive ? 'Detener Bomba' : 'Activar Bomba de Agua' }}
+                    </ion-button>
+                  </div>
+                } @else {
+                  <div class="no-connection-notice">
+                    <ion-icon name="wifi-outline" color="medium"></ion-icon>
+                    <span>Sin conexión LoRa para accionar la bomba.</span>
+                  </div>
+                }
+              }
+            </ion-card-content>
+          </ion-card>
+        }
+
+      } @else {
+
+        <!-- SI NO HAY ALERTAS: Muestra tarjeta indicando que TODO ESTÁ BIEN -->
+        <ion-card class="status-card-alert status-card-success">
+          <ion-card-header>
+            <div class="status-badge success-badge">
+              <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+              <span>Estado Óptimo</span>
+            </div>
+            <ion-card-title class="card-main-title">¡Todo bien en el cultivo!</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content class="ion-text-center ion-padding">
+            <ion-icon name="checkmark-done-circle-outline" style="font-size: 64px; color: var(--ion-color-success); margin-bottom: 12px;"></ion-icon>
+            <p class="intro-text">
+              No hay alertas ni emergencias activas en este momento. La humedad y temperatura de tus plantas están dentro del rango adecuado.
+            </p>
+          </ion-card-content>
+        </ion-card>
+
+      }
+    </div>
+
+  } @else if (folder() && folder().toLowerCase().includes('recomendaciones')) {
       
       @if (estado === 'planta_en_mal_estado') {
         <ion-card class="status-card-alert status-card-warning">
-          <!-- Encabezado con badge e icono de estado -->
           <ion-card-header>
             <div class="status-badge warning-badge">
               <ion-icon name="warning-outline"></ion-icon>
@@ -94,12 +170,10 @@
           </ion-card-header>
 
           <ion-card-content>
-            <!-- Introducción -->
             <p class="intro-text">
               Si tu planta se está secando, determina si está completando su ciclo natural de cosecha o si sufre por estrés hídrico, exceso de calor o plagas.
             </p>
 
-            <!-- Pasos / Recomendaciones estructuradas -->
             <div class="section-subtitle">Acciones recomendadas:</div>
             
             <ion-list lines="full" class="recommendations-list">
@@ -107,7 +181,7 @@
                 <ion-icon name="water-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Riego y Bomba de Agua</h3>
-                  <p>Si es por falta de agua, activa la bomba desde la sección <strong>Zona de Cultivo</strong>. Mantén el suelo húmedo sin encharcar (2 veces por semana).</p>
+                  <p>Si es por falta de agua, activa la bomba desde la sección <strong>Zona de Cultivo</strong>. Mantén el suelo húmedo sin encharcar.</p>
                 </ion-label>
               </ion-item>
 
@@ -115,7 +189,7 @@
                 <ion-icon name="sunny-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Protección Térmica</h3>
-                  <p>Si hay exceso de calor, provee sombra parcial en horas pico (12:00 PM a 4:00 PM) o traslada la planta a una zona fresca.</p>
+                  <p>Si hay exceso de calor, provee sombra parcial en horas pico (12:00 PM a 4:00 PM).</p>
                 </ion-label>
               </ion-item>
 
@@ -136,7 +210,6 @@
               </ion-item>
             </ion-list>
 
-            <!-- Fuentes externas estilizadas -->
             <div class="resources-section">
               <h5>Documentación y Guías de Apoyo:</h5>
               <div class="resource-links">
@@ -176,7 +249,7 @@
                 <ion-icon name="sunny-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Iluminación Solar</h3>
-                  <p>Asegúrate de que reciba de 6 a 8 horas directas de luz solar al día para fortalecer el tallo.</p>
+                  <p>Asegúrate de que reciba de 6 a 8 horas directas de luz solar al día.</p>
                 </ion-label>
               </ion-item>
 
@@ -184,7 +257,7 @@
                 <ion-icon name="nutrition-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Nutrición Orgánica</h3>
-                  <p>Aplica humus de lombriz o fertilizante orgánico cada 3 o 4 semanas para impulsar la floración.</p>
+                  <p>Aplica humus de lombriz o fertilizante orgánico cada 3 o 4 semanas.</p>
                 </ion-label>
               </ion-item>
 
@@ -192,7 +265,7 @@
                 <ion-icon name="git-branch-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Tutorado y Soporte</h3>
-                  <p>Si es variedad de enredadera, instala tutores o guías para promover un crecimiento vertical ordenado.</p>
+                  <p>Si es variedad de enredadera, instala tutores o guías para un crecimiento vertical ordenado.</p>
                 </ion-label>
               </ion-item>
 
@@ -200,32 +273,15 @@
                 <ion-icon name="search-outline" slot="start" class="list-icon"></ion-icon>
                 <ion-label class="ion-text-wrap">
                   <h3>Inspección Preventiva</h3>
-                  <p>Revisa periódicamente el envés de las hojas para detectar a tiempo pulgones o mosca blanca.</p>
+                  <p>Revisa periódicamente el envés de las hojas para detectar a tiempo plagas.</p>
                 </ion-label>
               </ion-item>
             </ion-list>
-
-            <div class="resources-section">
-              <h5>Documentación y Guías de Apoyo:</h5>
-              <div class="resource-links">
-                <a href="https://plantix.net/es/library/plant-diseases/100114/dry-root-rot-of-bean/" target="_blank" class="resource-chip">
-                  <ion-icon name="document-text-outline"></ion-icon>
-                  <span>Enfermedad de la raíz seca</span>
-                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
-                </a>
-                <a href="https://hydroenv.com.mx/cultivo-de-frijol-guia-completa-de-siembra-manejo-y-cosecha/" target="_blank" class="resource-chip">
-                  <ion-icon name="book-outline"></ion-icon>
-                  <span>Guía completa de cuidado</span>
-                  <ion-icon name="open-outline" class="external-icon"></ion-icon>
-                </a>
-              </div>
-            </div>
           </ion-card-content>
         </ion-card>
 
       } @else {
 
-        <!-- Estado por defecto cuando no hay diagnóstico aún -->
         <ion-card class="status-card-alert status-card-empty">
           <ion-card-header>
             <div class="status-badge empty-badge">
@@ -241,13 +297,11 @@
 
       }
 
-  }@else if (folder() && (folder().toLowerCase().includes('Perfil') || folder().toLowerCase().includes('perfil'))){
+  } @else if (folder() && folder().toLowerCase().includes('perfil')) {
 
-    <!-- Input Oculto para cargar la foto -->
     <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
 
     <div class="profile-container">
-      <!-- Sección Header del Avatar de Perfil -->
       <div class="profile-avatar-wrapper" (click)="openPhotoMenu()">
         <div class="avatar-circle">
           @if (profileImage) {
@@ -260,9 +314,7 @@
         </div>
       </div>
 
-      <!-- Tarjeta Blanca de Información -->
       <div class="profile-card">
-        <!-- Tab Selector: Personal / Business -->
         <div class="profile-segment-container">
           <div class="segmented-control">
             <label class="segment-btn">
@@ -271,10 +323,9 @@
           </div>
         </div>
 
-        <!-- Campos de Información -->
         <div class="profile-fields">
           <div class="profile-field-group">
-            <label class="field-label">Name</label>
+            <label class="field-label">Nombre</label>
             <div class="field-input-row">
               <input type="text" [(ngModel)]="profileData.name" class="profile-input" placeholder="Ingresa tu nombre" />
               <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
@@ -290,7 +341,7 @@
           </div>
 
           <div class="profile-field-group">
-            <label class="field-label">Website</label>
+            <label class="field-label">Sitio Web</label>
             <div class="field-input-row">
               <input type="text" [(ngModel)]="profileData.website" class="profile-input" placeholder="www.tusitio.com" />
               <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
@@ -319,11 +370,10 @@
       </div>
     </div>
     
-  }@else {
-    <!-- Vista por defecto para cualquier otra opción del menú lateral -->
-    <div class="ion-padding text-center">
+  } @else {
+    <div class="ion-padding ion-text-center">
       <h2>Contenido de {{ folder() }}</h2>
-      <p>Si no ve contenido. Seleccione "{{ folder() }}" en el menú para ver el contenido de la pestaña.</p>
+      <p>Seleccione "{{ folder() }}" en el menú lateral para ver la vista correspondiente.</p>
     </div>
   }
 
