@@ -5,7 +5,7 @@ import {
   RefresherCustomEvent, IonRefresher, IonRefresherContent, 
   IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, 
   IonIcon, IonCardHeader, IonCardTitle, IonList, IonLabel, 
-  IonFab, IonFabButton, ActionSheetController 
+  IonFab, IonFabButton, ActionSheetController, ToastController, IonSpinner, IonButton
 }
 from '@ionic/angular';
 import { addIcons } from 'ionicons';
@@ -15,7 +15,7 @@ import {
   warningOutline, checkmarkCircleOutline, helpCircleOutline, 
   waterOutline, sunnyOutline, medkitOutline, layersOutline, 
   nutritionOutline, gitBranchOutline, searchOutline, 
-  documentTextOutline, bookOutline, openOutline
+  documentTextOutline, bookOutline, openOutline, saveOutline, alertCircleOutline
 } 
 from 'ionicons/icons';
 
@@ -56,7 +56,10 @@ export class FolderPage {
 
   
 
-  constructor(private actionSheetCtrl: ActionSheetController) {
+  constructor(
+    private actionSheetCtrl: ActionSheetController,
+    private toastCtrl: ToastController
+  ) {
     addIcons({
       'leaf-outline': leafOutline,
       'radio-outline': radioOutline,
