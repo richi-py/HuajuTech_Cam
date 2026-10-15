@@ -83,56 +83,54 @@
     <div class="alerts-container">
       @if (alertas.length > 0) {
         
-        <!-- SI HAY ALERTAS: Muestra las tarjetas con la alerta correspondiente -->
-        @for (alerta of alertas; track alerta.id) {
-          <ion-card class="alert-card" [ngClass]="{
-            'critical-alert': alerta.tipo === 'critical',
-            'warning-alert': alerta.tipo === 'warning',
-            'info-alert': alerta.tipo === 'info'
-          }">
-            <ion-card-header>
-              <div class="alert-header-top">
-                <div class="alert-badge" [ngClass]="{
-                  'danger-badge': alerta.tipo === 'critical',
-                  'warning-badge': alerta.tipo === 'warning',
-                  'info-badge': alerta.tipo === 'info'
-                }">
-                  <ion-icon [name]="alerta.tipo === 'critical' ? 'alert-circle-outline' : (alerta.tipo === 'warning' ? 'warning-outline' : 'information-circle-outline')"></ion-icon>
-                  <span>{{ alerta.tipo === 'critical' ? 'Urgente' : (alerta.tipo === 'warning' ? 'Advertencia' : 'Información') }}</span>
-                </div>
-
-                <!-- Tiempo transcurrido -->
-                <span class="alert-timestamp">{{ getTimeAgo(alerta.fecha) }}</span>
+        <!-- SI HAY ALERTAS: Muestra la tarjeta con la alerta principal -->
+        <ion-card class="alert-card" [ngClass]="{
+          'critical-alert': alertas[0].tipo === 'critical',
+          'warning-alert': alertas[0].tipo === 'warning',
+          'info-alert': alertas[0].tipo === 'info'
+        }">
+          <ion-card-header>
+            <div class="alert-header-top">
+              <div class="alert-badge" [ngClass]="{
+                'danger-badge': alertas[0].tipo === 'critical',
+                'warning-badge': alertas[0].tipo === 'warning',
+                'info-badge': alertas[0].tipo === 'info'
+              }">
+                <ion-icon [name]="alertas[0].tipo === 'critical' ? 'alert-circle-outline' : (alertas[0].tipo === 'warning' ? 'warning-outline' : 'information-circle-outline')"></ion-icon>
+                <span>{{ alertas[0].tipo === 'critical' ? 'Urgente' : (alertas[0].tipo === 'warning' ? 'Advertencia' : 'Información') }}</span>
               </div>
 
-              <ion-card-title class="alert-title">
-                <ion-icon [name]="alerta.icono" [color]="alerta.tipo === 'critical' ? 'danger' : (alerta.tipo === 'warning' ? 'warning' : 'medium')" class="title-icon"></ion-icon>
-                {{ alerta.titulo }}
-              </ion-card-title>
-            </ion-card-header>
+              <!-- Tiempo transcurrido -->
+              <span class="alert-timestamp">{{ getTimeAgo(alertas[0].fecha) }}</span>
+            </div>
 
-            <ion-card-content>
-              <p class="alert-message">{{ alerta.mensaje }}</p>
+            <ion-card-title class="alert-title">
+              <ion-icon [name]="alertas[0].icono" [color]="alertas[0].tipo === 'critical' ? 'danger' : (alertas[0].tipo === 'warning' ? 'warning' : 'medium')" class="title-icon"></ion-icon>
+              {{ alertas[0].titulo }}
+            </ion-card-title>
+          </ion-card-header>
 
-              <!-- Botón de acción para riego si es una alerta crítica -->
-              @if (alerta.tipo === 'critical') {
-                @if (loraConnected) {
-                  <div class="alert-actions">
-                    <ion-button expand="block" color="danger" (click)="togglePump()" class="action-btn">
-                      <ion-icon [name]="isPumpActive ? 'pause-outline' : 'water-outline'" slot="start"></ion-icon>
-                      {{ isPumpActive ? 'Detener Bomba' : 'Activar Bomba de Agua' }}
-                    </ion-button>
-                  </div>
-                } @else {
-                  <div class="no-connection-notice">
-                    <ion-icon name="wifi-outline" color="medium"></ion-icon>
-                    <span>Sin conexión LoRa para accionar la bomba.</span>
-                  </div>
-                }
+          <ion-card-content>
+            <p class="alert-message">{{ alertas[0].mensaje }}</p>
+
+            <!-- Botón de acción para riego si es una alerta crítica -->
+            @if (alertas[0].tipo === 'critical') {
+              @if (loraConnected) {
+                <div class="alert-actions">
+                  <ion-button expand="block" color="danger" (click)="togglePump()" class="action-btn">
+                    <ion-icon [name]="isPumpActive ? 'pause-outline' : 'water-outline'" slot="start"></ion-icon>
+                    {{ isPumpActive ? 'Detener Bomba' : 'Activar Bomba de Agua' }}
+                  </ion-button>
+                </div>
+              } @else {
+                <div class="no-connection-notice">
+                  <ion-icon name="wifi-outline" color="medium"></ion-icon>
+                  <span>Sin conexión LoRa para accionar la bomba.</span>
+                </div>
               }
-            </ion-card-content>
-          </ion-card>
-        }
+            }
+          </ion-card-content>
+        </ion-card>
 
       } @else {
 

@@ -96,5 +96,31 @@ def PutSistemaIoT(strId):
     )
 
 
+@app.route('/users/email/<strCorreo>', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
+def GetUserByEmail(strCorreo):
+    try:
+        return CallMethod.fnGetUserByEmail(strCorreo)
+    except Exception as e:
+        print("Error en GetUserByEmail:", e)
+        return jsonify(Messages.err500)
+
+@app.route('/test-db', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
+def TestDB():
+    try:
+        # Intenta contar los documentos en la colección de usuarios
+        total_usuarios = CallMethod.dbUsers.count_documents({})
+        return jsonify({
+            "status": "OK",
+            "mensaje": "Conexión a MongoDB activa",
+            "total_usuarios": total_usuarios
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "status": "Error",
+            "mensaje": str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)

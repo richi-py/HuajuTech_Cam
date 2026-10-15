@@ -1,4 +1,4 @@
-import { Component, input, ViewChild, ElementRef, OnInit, OnDestroy, signal } from '@angular/core';
+import { Component, input, ViewChild, ElementRef, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { 
@@ -19,6 +19,8 @@ import {
   documentTextOutline, bookOutline, openOutline, saveOutline, alertCircleOutline
 } 
 from 'ionicons/icons';
+import { ApiService } from '../services/api'; 
+
 
 // Interfaz para la estructura de las alertas
 export interface Alerta {
@@ -38,7 +40,7 @@ export interface Alerta {
     IonItem, IonSpinner, IonButton, FormsModule, IonCardHeader, IonCardTitle, IonList, IonLabel, 
     IonFab, IonFabButton, IonIcon, IonCard, IonRange, IonCardContent, 
     IonRefresherContent, IonRefresher, IonHeader, IonToolbar, IonButtons, 
-    IonMenuButton, IonTitle, IonContent, IonButton,
+    IonMenuButton, IonTitle, IonContent, IonButton, NgClass
   ],
 })
 export class FolderPage {
@@ -86,7 +88,8 @@ export class FolderPage {
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private apiService: ApiService
   ) {
     addIcons({
       'leaf-outline': leafOutline,
@@ -253,48 +256,38 @@ export class FolderPage {
   /**
    * Guardar datos de perfil en la base de datos
    */
-  async saveProfileData() {
-    this.isSaving = true;
+  // Reemplaza o actualiza el método saveProfileData() en folder.page.ts
 
-    // Objeto listo para ser enviado a la BD
-    const payload = {
-      name: this.profileData.name,
-      email: this.profileData.email,
-      website: this.profileData.website,
-      profileImage: this.profileImage
-    };
+async saveProfileData() {
+  this.isSaving = true;
 
-    try {
-      // =========================================================================
-      // 🚀 AQUÍ VA TU CÓDIGO/SERVICIO PARA GUARDAR EN TU BASE DE DATOS 🚀
-      // Ejemplo usando tu servicio/HTTP:
-      //
-      // this.miServicio.guardarPerfil(payload).subscribe({
-      //   next: async (res) => {
-      //     this.isSaving = false;
-      //     await this.mostrarToast('Perfil actualizado correctamente', 'success', 'checkmark-circle-outline');
-      //   },
-      //   error: async (err) => {
-      //     this.isSaving = false;
-      //     await this.mostrarToast('Error al guardar en la base de datos', 'danger', 'alert-circle-outline');
-      //   }
-      // });
-      // =========================================================================
+  const sessionData = localStorage.getItem('userSession');
+  const userId = sessionData ? JSON.parse(sessionData)._id : null;
 
-      // Simulación de guardado (2 segundos)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      console.log('Datos preparados para la BD:', payload);
-
-      this.isSaving = false;
-      await this.mostrarToast('¡Perfil guardado exitosamente!', 'success', 'checkmark-circle-outline');
-
-    } catch (error) {
-      this.isSaving = false;
-      console.error('Error al guardar:', error);
-      await this.mostrarToast('Ocurrió un error al guardar', 'danger', 'alert-circle-outline');
-    }
+  if (!userId) {
+    this.isSaving = false;
+    await this.mostrarToast('No se encontró sesión de usuario activa', 'danger', 'alert-circle-outline');
+    return;
   }
+
+  const payload = {
+    strnombreUsuario: this.profileData.name,
+    strcorreoUsuario: this.profileData.email,
+    strwebsite: this.profileData.website
+  };
+
+  this.apiService.updateUser(userId, payload).subscribe({
+    next: async () => {
+      this.isSaving = false;
+      await this.mostrarToast('¡Perfil guardado en la Base de Datos!', 'success', 'checkmark-circle-outline');
+    },
+    error: async (err) => {
+      this.isSaving = false;
+      console.error(err);
+      await this.mostrarToast('Error al guardar en MongoDB', 'danger', 'alert-circle-outline');
+    }
+  });
+}
 
   /**
    * Muestra notificaciones tipo Toast
